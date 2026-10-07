@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>성경통독 체크리스트</title>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f2ea;--card:#fff;--ink:#2a2420;--sub:#7a6f64;--line:#e4dccf;--accent:#8c5a2b;--accent-ink:#fff;--warn:#d98b2b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1613;--card:#262019;--ink:#efe8de;--sub:#a89c8e;--line:#3b3329;--accent:#d4a06a;--accent-ink:#1a1209;--warn:#e0a24d}}
+:root[data-theme="dark"]{--bg:#1a1613;--card:#262019;--ink:#efe8de;--sub:#a89c8e;--line:#3b3329;--accent:#d4a06a;--accent-ink:#1a1209;--warn:#e0a24d}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Gowun Dodum',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.5;overflow-x:hidden;min-height:100vh}
+main{max-width:480px;margin:0 auto;padding:12px 12px calc(40px + env(safe-area-inset-bottom,0px))}
+h1{font-size:20px;margin:2px 2px 10px}
+h2{font-size:16px;margin:0 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 12px;margin-bottom:12px}
+.big{font-size:34px;font-weight:bold;line-height:1.1}
+.bar{height:12px;border-radius:99px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin:10px 0 6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.bar.sm{height:8px;margin:4px 0 10px}
+.cnt{display:flex;justify-content:space-between;font-size:13px;color:var(--sub)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;margin-top:12px}
+.stats b{display:block;font-size:20px}.stats span{font-size:12px;color:var(--sub)}
+.week{display:flex;gap:4px;margin-bottom:12px}
+.week button{flex:1;min-width:0;min-height:58px;padding:8px 0;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;-webkit-tap-highlight-color:transparent}
+.week button small{font-size:11px;color:var(--sub)}
+.week button.sel{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.week button.sel small{color:var(--accent-ink)}
+.dot{width:7px;height:7px;border-radius:50%;background:transparent}
+.dot.ok{background:var(--accent)}
+.week .sel .dot.ok{background:var(--accent-ink)}
+.date{display:flex;align-items:center;gap:6px}
+.date input{flex:1;min-width:0;min-height:44px;text-align:center;font:inherit;font-size:16px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);-webkit-appearance:none;appearance:none}
+.date button{flex:none;width:44px;height:44px;font:inherit;font-size:22px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;cursor:pointer}
+.planrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}
+.day{font-size:13px;color:var(--sub);margin:0}
+.range{font-size:22px;margin:2px 0 0}
+.badge{flex:none;display:inline-block;padding:3px 10px;border-radius:99px;font-size:13px;border:1px solid var(--line);color:var(--sub)}
+.badge.ok{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.check{display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 0;cursor:pointer}
+.check input{width:30px;height:30px;accent-color:var(--accent);flex:none}
+.check span{font-size:17px}
+input[type=text],input[type=date].s{font:inherit;font-size:16px;min-height:44px;width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.set{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.set label{font-size:12px;color:var(--sub);display:block;margin-bottom:2px}
+.scope{display:flex;gap:8px;margin-top:12px}.scope label{flex:1;display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px;cursor:pointer}.scope input{width:22px;height:22px;accent-color:var(--accent)}
+.btns{display:flex;gap:6px;margin-top:10px}
+.btns button{flex:1;font:inherit;min-height:40px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.plansum{margin:12px 0 0;font-size:15px}
+.hint{font-size:12px;color:var(--sub);margin:6px 0 0}
+.memo{padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.memo:first-of-type{border-top:0}
+.memo small{display:block;color:var(--sub);font-size:12px}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+<h1>📖 성경통독 체크리스트</h1>
+<noscript><div class="card">이 화면에서는 체크리스트가 작동하지 않아요. 게시된 링크를 Safari나 Claude 앱에서 열어 주세요.</div></noscript>
+
+<div class="card">
+  <h2>전체 진도율</h2>
+  <div class="big" id="pct">0%</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="cnt"><span id="cnt">0 / 1,189장</span><span id="left"></span></div>
+  <div class="stats">
+    <div><b id="s1">0</b><span>연속 읽기일</span></div>
+    <div><b id="s2">0</b><span>밀린 날</span></div>
+    <div><b id="s3">0/6</b><span>이번 주 완료</span></div>
+  </div>
+  <div style="margin-top:14px">
+    <div id="otw"><div class="cnt"><span>구약 (929장)</span><span id="ot">0%</span></div>
+    <div class="bar sm"><i id="otb"></i></div></div>
+    <div id="ntw"><div class="cnt"><span>신약 (260장)</span><span id="nt">0%</span></div>
+    <div class="bar sm"><i id="ntb"></i></div></div>
+  </div>
+</div>
+
+<div class="week" id="week"></div>
+
+<div class="card">
+  <div class="date"><button id="prev" aria-label="전날">‹</button><input type="date" id="date"><button id="next" aria-label="다음날">›</button></div>
+  <div id="plan"></div>
+</div>
+
+<div class="card" id="todo">
+  <h2>읽기 체크 · 한 줄 묵상</h2>
+  <label class="check"><input type="checkbox" id="done"><span id="donetxt">오늘 분량 읽기 완료</span></label>
+  <input type="text" id="memo" maxlength="120" placeholder="오늘 말씀 한 줄 묵상">
+</div>
+
+<div class="card">
+  <h2>통독 기간 설정</h2>
+  <div class="set">
+    <div><label for="start">시작일</label><input type="date" class="s" id="start"></div>
+    <div><label for="end">종료일</label><input type="date" class="s" id="end"></div>
+  </div>
+  <div class="scope"><label><input type="checkbox" id="useOT"> 구약 929장</label><label><input type="checkbox" id="useNT"> 신약 260장</label></div>
+  <div class="btns"><button data-m="3">3개월</button><button data-m="6">6개월</button><button data-m="12">1년</button></div>
+  <p class="plansum" id="plansum"></p>
+  <p class="hint">월~토요일에 읽고 주일은 쉬어요. 읽을 범위(구약·신약)나 기간을 바꾸면 날짜별 읽기 범위가 다시 계산되고, 체크 기록은 날짜 기준으로 유지돼요.</p>
+</div>
+
+<div class="card">
+  <h2>묵상 기록</h2>
+  <div id="memos"></div>
+  <div class="btns"><button id="reset">읽기 기록 지우기</button></div>
+</div>
+</main>
+
+<script>
+(function(){
+var B=[['창세기',50],['출애굽기',40],['레위기',27],['민수기',36],['신명기',34],['여호수아',24],['사사기',21],['룻기',4],['사무엘상',31],['사무엘하',24],['열왕기상',22],['열왕기하',25],['역대상',29],['역대하',36],['에스라',10],['느헤미야',13],['에스더',10],['욥기',42],['시편',150],['잠언',31],['전도서',12],['아가',8],['이사야',66],['예레미야',52],['예레미야애가',5],['에스겔',48],['다니엘',12],['호세아',14],['요엘',3],['아모스',9],['오바댜',1],['요나',4],['미가',7],['나훔',3],['하박국',3],['스바냐',3],['학개',2],['스가랴',14],['말라기',4],['마태복음',28],['마가복음',16],['누가복음',24],['요한복음',21],['사도행전',28],['로마서',16],['고린도전서',16],['고린도후서',13],['갈라디아서',6],['에베소서',6],['빌립보서',4],['골로새서',4],['데살로니가전서',5],['데살로니가후서',3],['디모데전서',6],['디모데후서',4],['디도서',3],['빌레몬서',1],['히브리서',13],['야고보서',5],['베드로전서',5],['베드로후서',3],['요한일서',5],['요한이서',1],['요한삼서',1],['유다서',1],['요한계시록',22]];
+var N=0,OFF=[],OT=929,DAYS=['일','월','화','수','목','금','토'];
+B.forEach(function(b){OFF.push(N);N+=b[1];});
+var KEY='bible-reading-tracker-v1',data={start:'',end:'',days:{}};
+try{var raw=localStorage.getItem(KEY);if(raw)data=JSON.parse(raw)||data;}catch(e){}
+if(!data.days)data.days={};
+if(typeof data.ot!=='boolean')data.ot=true;if(typeof data.nt!=='boolean')data.nt=true;
+function $(id){return document.getElementById(id);}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
+function iso(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(x<10?'0':'')+x;}
+function parse(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function dow(k){return parse(k).getDay();}
+function addDays(k,n){var d=parse(k);return iso(new Date(d.getFullYear(),d.getMonth(),d.getDate()+n));}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+var today=iso(new Date()),cur=today;
+function endAfter(start,m){var d=parse(start);return iso(new Date(d.getFullYear(),d.getMonth()+m,d.getDate()-1));}
+if(!data.start){data.start=today;data.end=endAfter(today,12);save();}
+var plan={},D=0,T=N,BASE=0;
+function build(){
+  plan={};D=0;T=(data.ot?OT:0)+(data.nt?N-OT:0);BASE=data.ot?0:OT;var s=parse(data.start),e=parse(data.end),list=[];
+  if(!data.start||!data.end||isNaN(s)||isNaN(e)||e<s||!T)return;
+  var k=data.start;
+  while(k<=data.end&&list.length<2000){if(dow(k)!==0)list.push(k);k=addDays(k,1);}
+  D=list.length;
+  list.forEach(function(k,i){plan[k]={i:i+1,a:Math.floor(i*T/D)+1,b:Math.floor((i+1)*T/D)};});
+}
+function ref(g){for(var i=B.length-1;i>=0;i--){if(g>OFF[i])return [i,g-OFF[i]];}return [0,1];}
+function fmt(a,b){
+  if(b<a)return '분량 없음';
+  var x=ref(a+BASE),y=ref(b+BASE);
+  if(x[0]===y[0])return B[x[0]][0]+' '+(x[1]===y[1]?x[1]+'장':x[1]+'~'+y[1]+'장');
+  return B[x[0]][0]+' '+x[1]+'장 ~ '+B[y[0]][0]+' '+y[1]+'장';
+}
+function isDone(k){return !!(data.days[k]&&data.days[k].d);}
+function weekDates(k){var off=(dow(k)+6)%7,mon=addDays(k,-off),a=[];for(var i=0;i<7;i++)a.push(addDays(mon,i));return a;}
+function renderWeek(){
+  var h='';
+  weekDates(cur).forEach(function(k){
+    h+='<button data-k="'+k+'" class="'+(k===cur?'sel':'')+'"><span>'+DAYS[dow(k)]+'</span><small>'+parse(k).getDate()+'</small><span class="dot '+(isDone(k)&&plan[k]?'ok':'')+'"></span></button>';
+  });
+  $('week').innerHTML=h;
+  Array.prototype.forEach.call($('week').children,function(b){b.onclick=function(){cur=b.getAttribute('data-k');render();};});
+}
+function renderDay(){
+  $('date').value=cur;
+  var p=plan[cur],t=$('todo'),h='';
+  if(p){
+    var n=p.b-p.a+1,ok=isDone(cur);
+    h='<div class="planrow"><div><p class="day">'+DAYS[dow(cur)]+'요일 · '+p.i+'/'+D+'일차 · '+(n>0?n+'장':'')+'</p><p class="range">'+fmt(p.a,p.b)+'</p></div><span class="badge'+(ok?' ok':'')+'">'+(ok?'완료':'미완료')+'</span></div>';
+    t.style.display='block';
+    $('done').checked=ok;
+    $('donetxt').textContent=(cur===today?'오늘':'이날')+' 분량 읽기 완료';
+    $('memo').value=(data.days[cur]&&data.days[cur].m)||'';
+  }else{
+    var msg=dow(cur)===0?'주일은 쉬는 날이에요. 푹 쉬세요 🙏':(D===0?'아래에서 통독 기간을 설정해 주세요.':(cur<data.start?'아직 통독 시작 전이에요. 시작일은 '+data.start.slice(5).replace('-','월 ')+'일이에요.':'통독 기간이 끝났어요. 수고하셨어요!'));
+    h='<div class="planrow"><div><p class="day">'+DAYS[dow(cur)]+'요일</p><p class="range" style="font-size:17px">'+msg+'</p></div><span class="badge">'+(dow(cur)===0?'휴식일':'기간 외')+'</span></div>';
+    t.style.display='none';
+  }
+  $('plan').innerHTML=h;
+}
+function renderStats(){
+  var done=0,ot=0,nt=0;
+  Object.keys(plan).forEach(function(k){
+    if(!isDone(k))return;var p=plan[k];if(p.b<p.a)return;
+    done+=p.b-p.a+1;
+    var ga=p.a+BASE,gb=p.b+BASE;
+    if(ga<=OT)ot+=Math.min(gb,OT)-ga+1;
+    if(gb>OT)nt+=gb-Math.max(ga,OT+1)+1;
+  });
+  var pc=T?Math.round(done/T*1000)/10:0;
+  $('pct').textContent=pc+'%';$('bar').style.width=pc+'%';
+  $('cnt').textContent=done.toLocaleString()+' / '+T.toLocaleString()+'장';
+  $('left').textContent=done>=T&&T?'통독 완료! 🎉':(T-done).toLocaleString()+'장 남음';
+  $('ot').textContent=ot+'/'+OT+'장 · '+Math.round(ot/OT*100)+'%';$('otb').style.width=(ot/OT*100)+'%';
+  $('nt').textContent=nt+'/'+(N-OT)+'장 · '+Math.round(nt/(N-OT)*100)+'%';$('ntb').style.width=(nt/(N-OT)*100)+'%';
+  $('otw').style.display=data.ot?'block':'none';$('ntw').style.display=data.nt?'block':'none';
+  var late=0;Object.keys(plan).forEach(function(k){if(k<today&&!isDone(k))late++;});
+  $('s2').textContent=late;
+  var wk=weekDates(cur).filter(function(k){return plan[k]&&isDone(k);}).length;
+  $('s3').textContent=wk+'/6';
+  var st=0,k=today;
+  for(var i=0;i<800;i++){
+    if(k<data.start)break;
+    if(plan[k]){if(isDone(k))st++;else if(k!==today)break;}
+    k=addDays(k,-1);
+  }
+  $('s1').textContent=st;
+}
+function renderSet(){
+  $('start').value=data.start;$('end').value=data.end;$('useOT').checked=data.ot;$('useNT').checked=data.nt;
+  var s=$('plansum');
+  if(!D){s.textContent='종료일은 시작일 이후로 설정해 주세요.';return;}
+  s.innerHTML='읽기 <b>'+D+'일</b> · 하루 약 <b>'+(T/D).toFixed(1)+'장</b> ('+(data.ot&&data.nt?'구약+신약':data.ot?'구약':'신약')+' 총 '+T.toLocaleString()+'장)';
+}
+function renderMemos(){
+  var ks=Object.keys(data.days).filter(function(k){return data.days[k].m;}).sort().reverse().slice(0,10),h='';
+  ks.forEach(function(k){var p=plan[k];h+='<div class="memo"><small>'+k.slice(5).replace('-','/')+' ('+DAYS[dow(k)]+')'+(p?' · '+fmt(p.a,p.b):'')+'</small>'+esc(data.days[k].m)+'</div>';});
+  $('memos').innerHTML=h||'<p class="hint">한 줄 묵상을 적으면 여기에 모여요.</p>';
+}
+function render(){renderWeek();renderDay();renderStats();renderSet();renderMemos();}
+function rec(){return data.days[cur]||(data.days[cur]={d:false,m:''});}
+$('done').onchange=function(){rec().d=this.checked;save();render();};
+$('memo').oninput=function(){rec().m=this.value;save();renderMemos();};
+$('date').onchange=function(){if(this.value){cur=this.value;render();}};
+$('prev').onclick=function(){cur=addDays(cur,-1);render();};
+$('next').onclick=function(){cur=addDays(cur,1);render();};
+$('start').onchange=function(){if(!this.value)return;data.start=this.value;if(data.end<data.start)data.end=endAfter(data.start,12);save();build();render();};
+$('end').onchange=function(){if(!this.value)return;data.end=this.value;save();build();render();};
+function scope(){var o=$('useOT').checked,n=$('useNT').checked;if(!o&&!n){this.checked=true;return;}data.ot=o;data.nt=n;save();build();render();}
+$('useOT').onchange=scope;$('useNT').onchange=scope;
+Array.prototype.forEach.call(document.querySelectorAll('[data-m]'),function(b){b.onclick=function(){data.end=endAfter(data.start,+b.getAttribute('data-m'));save();build();render();};});
+$('reset').onclick=function(){if(confirm('모든 읽기 체크와 묵상 기록을 지울까요? 되돌릴 수 없어요.')){data.days={};save();render();}};
+build();render();
+})();
+</script>
+</body>
+</html>
